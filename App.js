@@ -10,19 +10,24 @@ import {
 import Colors from './src/config/Colors';
 import Home from './src/screen/home';
 
+import {NavigationContainer} from '@react-navigation/native';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import Favourite from './src/screen/favourite';
+
+const Tab = createBottomTabNavigator();
+
 const App = () => {
   useEffect(() => {}, []);
   return (
     <>
       <StatusBar barStyle="dark-content" />
       <SafeAreaView style={styles.cover}>
-        {/* <ScrollView
-          contentInsetAdjustmentBehavior="automatic"
-          style={(styles.cover, styles.scrollView)}> */}
-        <View style={[styles.cover, styles.motherContainer]}>
-          <Home />
-        </View>
-        {/* </ScrollView> */}
+        <NavigationContainer>
+          <Tab.Navigator>
+            <Tab.Screen name="Home" component={Home} />
+            <Tab.Screen name="Favourite" component={Favourite} />
+          </Tab.Navigator>
+        </NavigationContainer>
       </SafeAreaView>
     </>
   );

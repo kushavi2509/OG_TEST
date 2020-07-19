@@ -6,8 +6,10 @@ import {getHundred} from '../../redux/action/GetTopHundredAction';
 import Search from '../../components/Search/Search';
 import Colors from '../../config/Colors';
 
-const Home = () => {
-  const topSong = useSelector(state => state.GetTopHundredReducer.topSong);
+const Favourite = () => {
+  const topSong = useSelector(state =>
+    state.GetTopHundredReducer.topSong.filter(item => item.isFav),
+  );
   const dispatch = useDispatch();
 
   const [value, setValue] = useState('');
@@ -30,14 +32,18 @@ const Home = () => {
       <View style={styles.container}>
         <FlatList
           data={value !== '' ? searchList : topSong}
+          style={{flexDirection: 'row'}}
+          numColumns={2}
+          showsHorizontalScrollIndicator={false}
           renderItem={({item, index}) => (
             <SmallCard
+              type={true}
               detail={item}
               index={index}
               favFunc={value !== '' ? false : true}
             />
           )}
-          keyExtractor={(item) => item.id.attributes["im:id"]}
+          keyExtractor={item => item.id.attributes['im:id']}
         />
       </View>
     </KeyboardAvoidingView>
@@ -48,6 +54,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Colors.Grey,
+    justifyContent:"space-around",
+    alignContent:"space-around"
   },
 });
-export default React.memo(Home);
+export default React.memo(Favourite);

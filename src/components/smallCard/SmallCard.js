@@ -1,30 +1,49 @@
 import React from 'react';
 import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
 import {useDispatch} from 'react-redux';
-import Colors from '../../config/Colors';
 import {handleFavourite} from './../../redux/action/GetTopHundredAction';
+import {
+  container,
+  containerFav,
+  imageView,
+  imageViewFav,
+  favIcon,
+  imageViewContainer,
+  imageViewContainerFav,
+  detail,
+  detailFav,
+  detailTitle,
+  detailTitleFav,
+} from './style';
 const fav = './../../assets/icon/fav.png';
-const SmallCard = ({detail, index, favFunc}) => {
+const SmallCard = ({type, detail}) => {
+  let selector = type ? 'Fav' : '';
   const dispatch = useDispatch();
   return (
     <TouchableOpacity
-      onPress={() => (favFunc ? dispatch(handleFavourite(index)) : null)}>
-      <View
-        style={[
-          styles.container,
-          {backgroundColor: detail.isFav ? Colors.Secondary : Colors.Primary},
-        ]}>
-        <View style={styles.imageViewContainer}>
+      onPress={() => (dispatch(handleFavourite(detail.id.attributes["im:id"])))}>
+      <View style={styles[`container${selector}`]}>
+        <View style={styles[`imageViewContainer${selector}`]}>
           <Image
-            style={styles.imageView}
+            style={styles[`imageView${selector}`]}
             source={{uri: detail['im:image'][0].label}}></Image>
+          {detail.isFav ? (
+            type ? null : (
+              <Image
+                style={styles[`favIcon${selector}`]}
+                source={require('../../assets/icon/fav.png')}
+              />
+            )
+          ) : null}
         </View>
-        <View style={styles.detail}>
-          <Text style={styles.detailTitle} numberOfLines={1}>
-            {detail.title.label}
-          </Text>
-          <Text numberOfLines={1}>{detail['im:artist'].label}</Text>
-        </View>
+        {type ? null : (
+          <View style={styles[`detail${selector}`]}>
+            <Text style={styles[`detailTitle${selector}`]} numberOfLines={1}>
+              {detail.title.label}
+            </Text>
+            <Text numberOfLines={1}>{detail['im:artist'].label}</Text>
+          </View>
+        )}
       </View>
     </TouchableOpacity>
   );
@@ -32,37 +51,37 @@ const SmallCard = ({detail, index, favFunc}) => {
 
 const styles = StyleSheet.create({
   container: {
-    borderWidth: 1,
-    borderRadius: 4,
-    borderColor: '#000',
-    borderBottomWidth: 0,
-    shadowColor: '#000',
-    shadowOffset: {width: 0, height: 2},
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 1,
-    marginHorizontal: 10,
-    marginTop: 5,
-    backgroundColor: Colors.Primary,
-    flexDirection: 'row',
-    alignItems: 'center',
+    ...container,
+  },
+  containerFav: {
+    ...containerFav,
   },
   imageView: {
-    height: 55,
-    width: 55,
+    ...imageView,
+  },
+  imageViewFav: {
+    ...imageViewFav,
+  },
+  favIcon: {
+    ...favIcon,
   },
   imageViewContainer: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    margin: 5,
+    ...imageViewContainer,
+  },
+  imageViewContainerFav: {
+    ...imageViewContainerFav,
   },
   detail: {
-    flexDirection: 'column',
-    justifyContent: 'space-around',
-    width: '80%',
+    ...detail,
+  },
+  detailFav: {
+    ...detailFav,
   },
   detailTitle: {
-    fontSize: 18,
+    ...detailTitle,
+  },
+  detailTitleFav: {
+    ...detailTitleFav,
   },
 });
 

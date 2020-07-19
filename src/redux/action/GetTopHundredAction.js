@@ -2,7 +2,6 @@ import * as ACTIONS from './ActionTypes';
 import request from '../../rest/Api';
 
 export const getHundred = item => dispatch => {
-  var payload = item === 'Home' ? 'School' : 'Home';
   request({}, '', 'GET')
     .then(response => {
       let top = response.data.feed.entry;
@@ -10,8 +9,9 @@ export const getHundred = item => dispatch => {
     })
     .catch(err => console.log(err));
 };
-export const handleFavourite = index => (dispatch, getState) => {
+export const handleFavourite = id => (dispatch, getState) => {
   let fullList = [...getState().GetTopHundredReducer.topSong];
+  let index = fullList.findIndex(item => item.id.attributes['im:id'] == id);
   fullList[index]['isFav'] = fullList[index]['isFav'] ? false : true;
   dispatch({type: ACTIONS.ADD_FAV, payload: fullList});
 };
