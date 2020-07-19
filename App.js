@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {
   SafeAreaView,
   StyleSheet,
@@ -11,6 +11,7 @@ import Colors from './src/config/Colors';
 import Home from './src/screen/home';
 
 const App = () => {
+  useEffect(() => {}, []);
   return (
     <>
       <StatusBar barStyle="dark-content" />
@@ -18,9 +19,9 @@ const App = () => {
         {/* <ScrollView
           contentInsetAdjustmentBehavior="automatic"
           style={(styles.cover, styles.scrollView)}> */}
-          <View style={[styles.cover, styles.motherContainer]}>
-            <Home/>
-          </View>
+        <View style={[styles.cover, styles.motherContainer]}>
+          <Home />
+        </View>
         {/* </ScrollView> */}
       </SafeAreaView>
     </>
