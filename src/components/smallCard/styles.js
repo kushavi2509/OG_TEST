@@ -1,10 +1,10 @@
-import Colors from "../../config/Colors";
+import Colors from '../../config/Colors';
 
 export const cover = {
-  flex: .5,
+  flex: 1,
 };
 
 export const smallCard = {
-  ...cover,
+  flex: 0.5,
   backgroundColor: Colors.Secondary,
 };

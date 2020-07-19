@@ -1,21 +1,22 @@
 import React from 'react';
+import {useSelector} from 'react-redux';
 import {View, Text, StyleSheet} from 'react-native';
-import Colors from '../../config/Colors';
-import { Container } from './style';
+import {Container} from './style';
 import SmallCard from '../../components/smallCard';
 
 const Home = () => {
+  const state = useSelector(state => state.GetTopHundredReducer.place);
   return (
-        <View style={styles.container}>
-            <Text>Home22</Text>
-            <SmallCard/>
-        </View>
+    <View style={styles.container}>
+      <Text>{state}</Text>
+      <SmallCard />
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
-    container:{
-        ...Container
-    }
+  container: {
+    ...Container,
+  },
 });
 export default Home;
