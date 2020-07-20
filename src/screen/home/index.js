@@ -5,13 +5,15 @@ import SmallCard from '../../components/smallCard/SmallCard';
 import {getHundred} from '../../redux/action/GetTopHundredAction';
 import Search from '../../components/Search/Search';
 import Colors from '../../config/Colors';
+import CardLoader from '../../components/Loader/CardLoader';
 
-const Home = () => {
+const Home = ({navigation}) => {
   const topSong = useSelector(state => state.GetTopHundredReducer.topSong);
   const dispatch = useDispatch();
 
   const [value, setValue] = useState('');
   const [searchList, setSearchList] = useState([]);
+  const [Loader, SetLoader] = useState(true);
   const search = key => {
     setValue(key);
     let list = topSong.filter(item =>
@@ -20,7 +22,12 @@ const Home = () => {
     setSearchList(list);
   };
   useEffect(() => {
-    dispatch(getHundred());
+    if (topSong.length <= 0) {
+      dispatch(getHundred());
+    }
+    setTimeout(() => {
+      SetLoader(false);
+    }, 2000);
   }, []);
   return (
     <KeyboardAvoidingView
@@ -28,17 +35,21 @@ const Home = () => {
       style={styles.container}>
       <Search value={value} searchHandle={key => search(key)} />
       <View style={styles.container}>
-        <FlatList
-          data={value !== '' ? searchList : topSong}
-          renderItem={({item, index}) => (
-            <SmallCard
-              detail={item}
-              index={index}
-              favFunc={value !== '' ? false : true}
-            />
-          )}
-          keyExtractor={(item) => item.id.attributes["im:id"]}
-        />
+        {Loader ? (
+          <CardLoader type="home" count={2} />
+        ) : (
+          <FlatList
+            data={value !== '' ? searchList : topSong}
+            renderItem={({item, index}) => (
+              <SmallCard
+                detail={item}
+                index={index}
+                favFunc={value !== '' ? false : true}
+              />
+            )}
+            keyExtractor={item => item.id.attributes['im:id']}
+          />
+        )}
       </View>
     </KeyboardAvoidingView>
   );
